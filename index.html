@@ -1,0 +1,1032 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>來我家玩！溫馨聚會</title>
+    <style>
+      :root {
+        --rose-100: #ffe4e6;
+        --rose-200: #fecdd3;
+        --sky-100: #e0f2fe;
+        --sky-200: #bae6fd;
+        --mint-50: #ecfdf5;
+        --mint-200: #a7f3d0;
+        --mint-300: #6ee7b7;
+        --amber-50: #fffbeb;
+        --slate-800: #1f2937;
+        --slate-700: #334155;
+        --slate-600: #475569;
+        --white: #ffffff;
+
+        --radius-xl: 28px;
+        --radius-lg: 20px;
+        --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+        --ring: 1px solid rgba(255, 255, 255, 0.7);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+          Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        color: var(--slate-700);
+        background: linear-gradient(135deg, var(--rose-100), var(--sky-100), #d1fae5);
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 40px 16px 56px;
+      }
+
+      .card {
+        background: rgba(255, 255, 255, 0.72);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow);
+        border: var(--ring);
+        backdrop-filter: blur(10px);
+      }
+
+      .header {
+        padding: 22px;
+      }
+
+      .headerTop {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(22px, 3vw, 32px);
+        letter-spacing: -0.02em;
+        color: var(--slate-800);
+      }
+
+      .subtitle {
+        margin: 6px 0 0;
+        font-size: 14px;
+        color: var(--slate-600);
+      }
+
+      .tabs {
+        display: flex;
+        gap: 10px;
+      }
+
+      .tabBtn {
+        cursor: pointer;
+        border: var(--ring);
+        background: rgba(255, 255, 255, 0.7);
+        padding: 10px 14px;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 14px;
+        color: var(--slate-700);
+        transition: transform 0.15s ease, background 0.15s ease;
+      }
+
+      .tabBtn:hover {
+        transform: translateY(-1px);
+        background: rgba(255, 255, 255, 0.9);
+      }
+
+      .tabBtn.active {
+        background: rgba(254, 205, 211, 0.85);
+        color: var(--slate-800);
+      }
+
+      .fields {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      @media (max-width: 900px) {
+        .fields {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 520px) {
+        .fields {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .field {
+        padding: 12px;
+        border-radius: var(--radius-xl);
+        border: var(--ring);
+        background: rgba(255, 255, 255, 0.55);
+      }
+
+      .fieldLabel {
+        font-size: 12px;
+        font-weight: 800;
+        color: var(--slate-600);
+        margin-bottom: 6px;
+      }
+
+      .fieldInput {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: var(--radius-lg);
+        border: var(--ring);
+        outline: none;
+        font-size: 14px;
+        color: var(--slate-800);
+        background: rgba(255, 255, 255, 0.86);
+      }
+
+      .fieldInput:focus {
+        border: 2px solid rgba(186, 230, 253, 0.95);
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 18px;
+        margin-top: 18px;
+      }
+
+      @media (max-width: 980px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .section {
+        padding: 20px;
+      }
+
+      .sectionTitle {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+
+      .sectionTitle h2 {
+        margin: 0;
+        font-size: 18px;
+        color: var(--slate-800);
+      }
+
+      .hint {
+        margin: 6px 0 0;
+        font-size: 13px;
+        color: var(--slate-600);
+      }
+
+      .badge {
+        font-size: 12px;
+        font-weight: 800;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: var(--ring);
+        background: rgba(255, 228, 230, 0.7);
+        color: #be123c;
+        white-space: nowrap;
+      }
+
+      .category {
+        margin-top: 16px;
+      }
+
+      .categoryHead {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        font-weight: 900;
+        color: var(--slate-800);
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: rgba(253, 164, 175, 0.9);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      @media (max-width: 520px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .itemBtn {
+        cursor: pointer;
+        text-align: left;
+        border: var(--ring);
+        background: rgba(255, 255, 255, 0.82);
+        border-radius: var(--radius-xl);
+        padding: 14px;
+        box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      }
+
+      .itemBtn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 26px rgba(15, 23, 42, 0.08);
+      }
+
+      .itemBtn.active {
+        outline: 2px solid rgba(254, 205, 211, 0.9);
+      }
+
+      .itemTop {
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .itemName {
+        font-weight: 900;
+        font-size: 14px;
+        color: var(--slate-800);
+      }
+
+      .itemOwner {
+        margin-top: 6px;
+        font-size: 12px;
+        color: var(--slate-600);
+      }
+
+      .pill {
+        font-size: 11px;
+        font-weight: 900;
+        padding: 4px 8px;
+        border-radius: 999px;
+        border: var(--ring);
+        background: rgba(224, 242, 254, 0.9);
+        color: #0369a1;
+        white-space: nowrap;
+      }
+
+      .itemDesc {
+        margin-top: 10px;
+        font-size: 12px;
+        color: var(--slate-600);
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .detailBox {
+        border-radius: var(--radius-xl);
+        border: var(--ring);
+        background: rgba(255, 255, 255, 0.82);
+        padding: 16px;
+      }
+
+      .detailHead {
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .clearBtn {
+        cursor: pointer;
+        border: var(--ring);
+        background: rgba(254, 205, 211, 0.6);
+        color: #be123c;
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      .clearBtn:hover {
+        background: rgba(254, 205, 211, 0.9);
+      }
+
+      .detailTitle {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 900;
+        color: var(--slate-800);
+      }
+
+      .detailMeta {
+        margin-top: 6px;
+        font-size: 13px;
+        color: var(--slate-600);
+      }
+
+      .list {
+        list-style: none;
+        padding: 0;
+        margin: 10px 0 0;
+        display: grid;
+        gap: 8px;
+      }
+
+      .li {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: var(--radius-lg);
+        border: var(--ring);
+        background: rgba(236, 253, 245, 0.8);
+        font-size: 14px;
+        color: var(--slate-800);
+      }
+
+      .liDot {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: rgba(110, 231, 183, 0.95);
+      }
+
+      .empty {
+        text-align: center;
+        padding: 22px;
+        border-radius: var(--radius-xl);
+        border: var(--ring);
+        background: rgba(255, 255, 255, 0.82);
+      }
+
+      .emptyEmoji {
+        width: 48px;
+        height: 48px;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+        margin: 0 auto 10px;
+        background: rgba(224, 242, 254, 0.9);
+        border: var(--ring);
+        font-size: 22px;
+      }
+
+      .emptyTitle {
+        font-weight: 900;
+        color: var(--slate-800);
+        font-size: 14px;
+      }
+
+      .emptyText {
+        margin-top: 6px;
+        font-size: 13px;
+        color: var(--slate-600);
+      }
+
+      .flow {
+        margin-top: 14px;
+        border-radius: var(--radius-xl);
+        border: var(--ring);
+        background: rgba(255, 251, 235, 0.85);
+        padding: 14px;
+      }
+
+      .flowTitle {
+        font-weight: 900;
+        font-size: 14px;
+        color: var(--slate-800);
+      }
+
+      .flowList {
+        margin: 10px 0 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 10px;
+        font-size: 14px;
+      }
+
+      .flowItem {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        color: var(--slate-700);
+      }
+
+      .step {
+        width: 22px;
+        height: 22px;
+        border-radius: 999px;
+        display: grid;
+        place-items: center;
+        font-size: 12px;
+        font-weight: 900;
+        background: rgba(255, 255, 255, 0.75);
+        border: var(--ring);
+        color: var(--slate-800);
+        flex: 0 0 auto;
+      }
+
+      /* Photos */
+      .photosTop {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        align-items: end;
+        justify-content: space-between;
+      }
+
+      .primaryBtn {
+        cursor: pointer;
+        border: var(--ring);
+        background: rgba(186, 230, 253, 0.7);
+        color: var(--slate-800);
+        border-radius: 999px;
+        padding: 10px 14px;
+        font-weight: 900;
+        font-size: 14px;
+      }
+
+      .primaryBtn:hover {
+        background: rgba(186, 230, 253, 0.95);
+      }
+
+      .dropzone {
+        margin-top: 14px;
+        border-radius: var(--radius-xl);
+        border: 2px dashed rgba(255, 255, 255, 0.75);
+        background: rgba(255, 255, 255, 0.55);
+        padding: 18px;
+        text-align: center;
+        transition: background 0.15s ease, border-color 0.15s ease;
+      }
+
+      .dropzone.drag {
+        border-color: rgba(186, 230, 253, 0.95);
+        background: rgba(224, 242, 254, 0.7);
+      }
+
+      .dropIcon {
+        width: 48px;
+        height: 48px;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+        margin: 0 auto 10px;
+        background: rgba(254, 205, 211, 0.65);
+        border: var(--ring);
+        font-size: 22px;
+      }
+
+      .photosGrid {
+        margin-top: 14px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      @media (max-width: 900px) {
+        .photosGrid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 520px) {
+        .photosGrid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .photoCard {
+        overflow: hidden;
+        border-radius: var(--radius-xl);
+        border: var(--ring);
+        background: rgba(255, 255, 255, 0.82);
+        box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+      }
+
+      .photoCard img {
+        width: 100%;
+        height: 190px;
+        object-fit: cover;
+        display: block;
+      }
+
+      .photoBar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 10px 12px;
+      }
+
+      .photoName {
+        font-size: 12px;
+        color: var(--slate-600);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .removeBtn {
+        cursor: pointer;
+        border: var(--ring);
+        background: rgba(254, 205, 211, 0.6);
+        color: #be123c;
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      .removeBtn:hover {
+        background: rgba(254, 205, 211, 0.9);
+      }
+
+      .note {
+        margin-top: 16px;
+        border-radius: var(--radius-xl);
+        border: var(--ring);
+        background: rgba(236, 253, 245, 0.7);
+        padding: 14px;
+        color: var(--slate-600);
+        font-size: 14px;
+      }
+
+      footer {
+        margin-top: 18px;
+        text-align: center;
+        font-size: 12px;
+        color: var(--slate-600);
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      a {
+        color: inherit;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="card header">
+        <div class="headerTop">
+          <div>
+            <h1 id="title">來我家玩！溫馨聚會</h1>
+            <p class="subtitle">一頁搞定：時間地點、菜單分工、還有照片牆 📸</p>
+          </div>
+          <div class="tabs" role="tablist">
+            <button class="tabBtn active" id="tab-agenda" type="button">活動資訊</button>
+            <button class="tabBtn" id="tab-photos" type="button">照片上傳</button>
+          </div>
+        </div>
+
+        <div class="fields">
+          <div class="field">
+            <div class="fieldLabel">日期</div>
+            <input class="fieldInput" id="date" placeholder="例如：1/12（週日）" />
+          </div>
+          <div class="field">
+            <div class="fieldLabel">時間</div>
+            <input class="fieldInput" id="time" placeholder="例如：18:30" />
+          </div>
+          <div class="field">
+            <div class="fieldLabel">地點</div>
+            <input class="fieldInput" id="location" placeholder="例如：我家（地址/門牌）" />
+          </div>
+          <div class="field">
+            <div class="fieldLabel">備註</div>
+            <input class="fieldInput" id="note" placeholder="例如：可帶飲料/不要穿太正式（？）" />
+          </div>
+        </div>
+      </div>
+
+      <!-- AGENDA -->
+      <section id="view-agenda" class="layout">
+        <div class="card section">
+          <div class="sectionTitle">
+            <div>
+              <h2>菜單與分工</h2>
+              <p class="hint">點卡片看食材與負責人（別裝忙，快點領菜 😆）</p>
+            </div>
+            <div class="badge">Pastel vibes only</div>
+          </div>
+          <div id="menu"></div>
+        </div>
+
+        <div class="card section">
+          <div>
+            <h2 style="margin:0; font-size:18px; color: var(--slate-800);">卡片內容</h2>
+            <p class="hint" id="detailHint">先點左邊任一卡片，這裡就會出現詳細內容</p>
+          </div>
+
+          <div style="margin-top:14px" id="detail"></div>
+
+          <div class="flow">
+            <div class="flowTitle">今日流程（簡易版）</div>
+            <ul class="flowList">
+              <li class="flowItem"><span class="step">1</span>到場 → 迎賓飲料 → 社交暖機</li>
+              <li class="flowItem"><span class="step">2</span>主菜開煮 → 開吃 → 互相稱讚廚藝</li>
+              <li class="flowItem"><span class="step">3</span>甜點 + 桌遊 → 照片留念 → 和平散會</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- PHOTOS -->
+      <section id="view-photos" class="card section hidden">
+        <div class="photosTop">
+          <div>
+            <h2 style="margin:0; font-size:18px; color: var(--slate-800);">照片上傳</h2>
+            <p class="hint" style="margin-bottom:0;">這裡的照片只會在你的瀏覽器裡顯示（沒有上傳到伺服器）。</p>
+          </div>
+          <div>
+            <button class="primaryBtn" id="pick" type="button">選擇照片</button>
+            <input id="file" type="file" accept="image/*" multiple class="hidden" />
+          </div>
+        </div>
+
+        <div class="dropzone" id="dropzone">
+          <div class="dropIcon">📸</div>
+          <div style="font-weight: 900; color: var(--slate-800);">拖曳照片到這裡</div>
+          <div class="hint">支援多張，手機拍的也 OK（只要是圖片檔）。</div>
+        </div>
+
+        <div style="margin-top:16px; display:flex; align-items:center; justify-content:space-between; gap:10px;">
+          <div style="font-weight:900; color: var(--slate-800);">照片牆</div>
+          <div class="hint" id="count" style="margin:0;">目前：0 張</div>
+        </div>
+
+        <div id="photos" class="photosGrid"></div>
+
+        <div class="note">
+          <div style="font-weight: 900; color: var(--slate-800);">想讓朋友也能一起上傳？</div>
+          <div style="margin-top:6px;">
+            這版是「本機版」：同一台裝置開就共享。想要大家手機都上傳到同一個相簿，
+            需要接 Firebase / Supabase / Google Drive 之類的雲端後端。
+          </div>
+        </div>
+      </section>
+
+      <footer>made with 🥣🍤🎲 + 一點點馬卡龍配色</footer>
+    </div>
+
+    <script>
+      // ====== Data ======
+      const state = {
+        activeTab: "agenda",
+        selectedId: null,
+        eventInfo: {
+          title: "來我家玩！溫馨聚會",
+          date: "1/24（六）",
+          time: "12:00",
+          location: "星池社區",
+          note: "帶著好心情來就好 ✨",
+        },
+        photos: [], // { name, url }
+      };
+
+      const foodItems = [
+        {
+          id: "yuzu-soup",
+          category: "主菜",
+          name: "柚子蔬菜湯",
+          owner: "大家一起做",
+          desc: "一起丟鍋、一起香到不行。",
+          ingredients: [
+            "娃娃菜",
+            "菠菜",
+            "番茄",
+            "菇類",
+            "豆腐",
+            "簡易火鍋料",
+            "肉片",
+          ],
+        },
+        {
+          id: "seafood-pancake",
+          category: "主菜",
+          name: "海鮮煎餅",
+          owner: "芸",
+          desc: "外酥內嫩，配一點辣更對味。",
+          ingredients: [
+            "蝦",
+            "蟹肉棒",
+            "高麗菜絲",
+            "蔥",
+            "泡菜",
+            "小章魚",
+          ],
+        },
+        {
+          id: "sweet-sour-egg",
+          category: "主菜",
+          name: "糖醋雞蛋",
+          owner: "宇",
+          desc: "酸甜開胃，白飯殺手（警告）。",
+          ingredients: ["（食材待補）"],
+        },
+        {
+          id: "rice",
+          category: "主菜",
+          name: "白飯",
+          owner: "宇",
+          desc: "最可靠的隊友：永遠都需要你。",
+          ingredients: ["白米", "水"],
+        },
+        {
+          id: "dessert",
+          category: "飯後時間",
+          name: "甜點：糖餅（可加冰淇淋）",
+          owner: "芸",
+          desc: "甜點胃：永遠還有空間。",
+          ingredients: ["麵粉", "酵母粉", "冰淇淋（不一定要）"],
+        },
+        {
+          id: "boardgame",
+          category: "飯後時間",
+          name: "桌遊：閃靈快手",
+          owner: "瑄",
+          desc: "手速與眼力大考驗。",
+          ingredients: ["桌遊本體", "玩家們的勝負欲"],
+        },
+      ];
+
+      // ====== Mini sanity tests (dev-friendly) ======
+      (function runSanityTests() {
+        const ids = new Set();
+        for (const it of foodItems) {
+          if (ids.has(it.id)) console.error("Duplicate id:", it.id);
+          ids.add(it.id);
+          if (!Array.isArray(it.ingredients))
+            console.error("ingredients must be array:", it.id);
+          if (!it.category || !it.name || !it.owner)
+            console.error("Missing fields:", it);
+        }
+      })();
+
+      // ====== DOM ======
+      const $ = (s) => document.querySelector(s);
+      const menuEl = $("#menu");
+      const detailEl = $("#detail");
+      const detailHintEl = $("#detailHint");
+      const photosEl = $("#photos");
+      const countEl = $("#count");
+
+      // Inputs
+      const titleEl = $("#title");
+      const dateEl = $("#date");
+      const timeEl = $("#time");
+      const locationEl = $("#location");
+      const noteEl = $("#note");
+
+      // Tabs
+      const tabAgenda = $("#tab-agenda");
+      const tabPhotos = $("#tab-photos");
+      const viewAgenda = $("#view-agenda");
+      const viewPhotos = $("#view-photos");
+
+      // Photos
+      const pickBtn = $("#pick");
+      const fileInput = $("#file");
+      const dropzone = $("#dropzone");
+
+      // ====== Render ======
+      function groupByCategory(items) {
+        const map = new Map();
+        for (const it of items) {
+          if (!map.has(it.category)) map.set(it.category, []);
+          map.get(it.category).push(it);
+        }
+        return Array.from(map.entries());
+      }
+
+      function renderHeader() {
+        titleEl.textContent = state.eventInfo.title;
+        dateEl.value = state.eventInfo.date;
+        timeEl.value = state.eventInfo.time;
+        locationEl.value = state.eventInfo.location;
+        noteEl.value = state.eventInfo.note;
+      }
+
+      function renderMenu() {
+        const grouped = groupByCategory(foodItems);
+        menuEl.innerHTML = grouped
+          .map(([category, items]) => {
+            const cards = items
+              .map((it) => {
+                const active = it.id === state.selectedId ? "active" : "";
+                return `
+                  <button class="itemBtn ${active}" type="button" data-id="${it.id}">
+                    <div class="itemTop">
+                      <div>
+                        <div class="itemName">${escapeHtml(it.name)}</div>
+                        <div class="itemOwner">負責人：<b style="color: var(--slate-700);">${escapeHtml(it.owner)}</b></div>
+                      </div>
+                      <div class="pill">點我</div>
+                    </div>
+                    <div class="itemDesc">${escapeHtml(it.desc || "")}</div>
+                  </button>
+                `;
+              })
+              .join("");
+
+            return `
+              <div class="category">
+                <div class="categoryHead"><span class="dot"></span>${escapeHtml(
+                  category
+                )}</div>
+                <div class="grid">${cards}</div>
+              </div>
+            `;
+          })
+          .join("");
+
+        // bind click
+        menuEl.querySelectorAll(".itemBtn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const id = btn.getAttribute("data-id");
+            state.selectedId = id;
+            renderMenu();
+            renderDetail();
+          });
+        });
+      }
+
+      function renderDetail() {
+        const selected = foodItems.find((x) => x.id === state.selectedId) || null;
+        if (!selected) {
+          detailHintEl.textContent = "先點左邊任一卡片，這裡就會出現詳細內容";
+          detailEl.innerHTML = `
+            <div class="empty">
+              <div class="emptyEmoji">🍲</div>
+              <div class="emptyTitle">還沒選卡片</div>
+              <div class="emptyText">左邊點一個菜名，這裡就會顯示食材與負責人。</div>
+            </div>
+          `;
+          return;
+        }
+
+        detailHintEl.textContent = "好的，這道就交給你們了（或你）";
+        const lis = selected.ingredients
+          .map(
+            (x) => `
+              <li class="li"><span class="liDot"></span>${escapeHtml(x)}</li>
+            `
+          )
+          .join("");
+
+        detailEl.innerHTML = `
+          <div class="detailBox">
+            <div class="detailHead">
+              <div>
+                <p class="detailTitle">${escapeHtml(selected.name)}</p>
+                <div class="detailMeta">負責人：<b style="color: var(--slate-800);">${escapeHtml(
+                  selected.owner
+                )}</b></div>
+              </div>
+              <button class="clearBtn" type="button" id="clear">清除</button>
+            </div>
+
+            <div style="margin-top:12px; font-weight:900; color: var(--slate-800);">食材</div>
+            <ul class="list">${lis}</ul>
+          </div>
+        `;
+
+        $("#clear").addEventListener("click", () => {
+          state.selectedId = null;
+          renderMenu();
+          renderDetail();
+        });
+      }
+
+      function renderPhotos() {
+        countEl.textContent = `目前：${state.photos.length} 張`;
+
+        if (state.photos.length === 0) {
+          photosEl.innerHTML = `
+            <div class="empty" style="grid-column: 1 / -1;">
+              還沒有照片欸～快把大家的神作（或黑歷史）丟上來 📷
+            </div>
+          `;
+          return;
+        }
+
+        photosEl.innerHTML = state.photos
+          .map(
+            (p) => `
+              <div class="photoCard">
+                <img src="${p.url}" alt="${escapeAttr(p.name)}" />
+                <div class="photoBar">
+                  <div class="photoName" title="${escapeAttr(p.name)}">${escapeHtml(
+                  p.name
+                )}</div>
+                  <button class="removeBtn" type="button" data-url="${p.url}">移除</button>
+                </div>
+              </div>
+            `
+          )
+          .join("");
+
+        photosEl.querySelectorAll(".removeBtn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const url = btn.getAttribute("data-url");
+            removePhoto(url);
+          });
+        });
+      }
+
+      // ====== Behaviors ======
+      function setTab(tab) {
+        state.activeTab = tab;
+        const isAgenda = tab === "agenda";
+        tabAgenda.classList.toggle("active", isAgenda);
+        tabPhotos.classList.toggle("active", !isAgenda);
+        viewAgenda.classList.toggle("hidden", !isAgenda);
+        viewPhotos.classList.toggle("hidden", isAgenda);
+      }
+
+      tabAgenda.addEventListener("click", () => setTab("agenda"));
+      tabPhotos.addEventListener("click", () => setTab("photos"));
+
+      function bindInputs() {
+        dateEl.addEventListener("input", () => (state.eventInfo.date = dateEl.value));
+        timeEl.addEventListener("input", () => (state.eventInfo.time = timeEl.value));
+        locationEl.addEventListener(
+          "input",
+          () => (state.eventInfo.location = locationEl.value)
+        );
+        noteEl.addEventListener("input", () => (state.eventInfo.note = noteEl.value));
+      }
+
+      function onPickFiles(fileList) {
+        const files = Array.from(fileList || []);
+        if (!files.length) return;
+
+        const newOnes = files
+          .filter((f) => (f.type || "").startsWith("image/"))
+          .map((f) => ({ name: f.name, url: URL.createObjectURL(f) }));
+
+        state.photos = state.photos.concat(newOnes);
+        renderPhotos();
+      }
+
+      function removePhoto(url) {
+        state.photos = state.photos.filter((p) => p.url !== url);
+        try {
+          URL.revokeObjectURL(url);
+        } catch {}
+        renderPhotos();
+      }
+
+      pickBtn.addEventListener("click", () => fileInput.click());
+      fileInput.addEventListener("change", (e) => onPickFiles(e.target.files));
+
+      dropzone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropzone.classList.add("drag");
+      });
+      dropzone.addEventListener("dragleave", () => dropzone.classList.remove("drag"));
+      dropzone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        dropzone.classList.remove("drag");
+        onPickFiles(e.dataTransfer.files);
+      });
+
+      // ====== Helpers ======
+      function escapeHtml(str) {
+        return String(str)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function escapeAttr(str) {
+        return escapeHtml(str).replaceAll("`", "&#096;");
+      }
+
+      // ====== Init ======
+      renderHeader();
+      bindInputs();
+      renderMenu();
+      renderDetail();
+      renderPhotos();
+      setTab("agenda");
+    </script>
+  </body>
+</html>
